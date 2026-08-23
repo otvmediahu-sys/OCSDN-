@@ -1,0 +1,220 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    // =====================================================
+    // Helper functions
+    // =====================================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        )
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.role == "admin";
+    }
+
+    function isStaff() {
+      return signedIn()
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        )
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.role in ["admin", "staff"];
+    }
+
+    function activeUser() {
+      return signedIn()
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        )
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.status == "active";
+    }
+
+
+    // =====================================================
+    // USERS
+    // =====================================================
+
+    match /users/{userId} {
+
+      // A user can read their own profile.
+      // Administrators can read all user profiles.
+      allow read:
+        if signedIn()
+        && (
+          request.auth.uid == userId
+          || isAdmin()
+        );
+
+      // Users cannot create their own elevated roles.
+      // Admins control user records.
+      allow create:
+        if isAdmin();
+
+      allow update:
+        if isAdmin();
+
+      allow delete:
+        if isAdmin();
+    }
+
+
+    // =====================================================
+    // CUSTOMERS
+    // =====================================================
+
+    match /customers/{customerId} {
+
+      allow read:
+        if isStaff()
+        || (
+          activeUser()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow create:
+        if activeUser();
+
+      allow update:
+        if isStaff()
+        || (
+          activeUser()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow delete:
+        if isAdmin();
+    }
+
+
+    // =====================================================
+    // SUPPLIERS
+    // =====================================================
+
+    match /suppliers/{supplierId} {
+
+      allow read:
+        if isStaff()
+        || (
+          activeUser()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow create:
+        if isStaff();
+
+      allow update:
+        if isStaff();
+
+      allow delete:
+        if isAdmin();
+    }
+
+
+    // =====================================================
+    // PROCUREMENT REQUESTS
+    // =====================================================
+
+    match /procurementRequests/{requestId} {
+
+      allow read:
+        if isStaff()
+        || (
+          activeUser()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow create:
+        if activeUser()
+        && request.resource.data.createdBy
+           == request.auth.uid;
+
+      allow update:
+        if isStaff()
+        || (
+          activeUser()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow delete:
+        if isAdmin();
+    }
+
+
+    // =====================================================
+    // ORDERS
+    // =====================================================
+
+    match /orders/{orderId} {
+
+      allow read:
+        if isStaff()
+        || (
+          activeUser()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow create:
+        if isStaff()
+        || (
+          activeUser()
+          && request.resource.data.createdBy
+             == request.auth.uid
+        );
+
+      allow update:
+        if isStaff();
+
+      allow delete:
+        if isAdmin();
+    }
+
+
+    // =====================================================
+    // AUDIT LOGS
+    // =====================================================
+
+    match /auditLogs/{logId} {
+
+      allow read:
+        if isAdmin();
+
+      allow create:
+        if activeUser()
+        && request.resource.data.userId
+           == request.auth.uid;
+
+      // Audit records should not be changed or deleted
+      // through the normal application.
+      allow update:
+        if false;
+
+      allow delete:
+        if false;
+    }
+
+
+    // =====================================================
+    // DENY EVERYTHING ELSE
+    // =====================================================
+
+    match /{document=**} {
+
+      allow read, write:
+        if false;
+    }
+
+  }
+}
