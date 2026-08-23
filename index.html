@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ouchaks OCSDN</title>
+
+<meta name="description"
+content="Ouchaks Customer & Supplier Distribution Network">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6f8;
+  color:#18202a;
+}
+
+/* LOGIN */
+
+#loginScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+
+  background:
+  linear-gradient(
+    rgba(13,49,93,.94),
+    rgba(22,74,138,.94)
+  ),
+  url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1800&q=80");
+
+  background-size:cover;
+  background-position:center;
+}
+
+.login-card{
+  width:100%;
+  max-width:440px;
+  background:white;
+  padding:32px;
+  border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.logo{
+  width:65px;
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#c62828;
+  color:white;
+  border-radius:16px;
+  font-size:30px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+
+.login-card h1{
+  margin:0 0 8px;
+}
+
+.login-card p{
+  color:#687381;
+  line-height:1.5;
+}
+
+.notice{
+  background:#eaf8f0;
+  border:1px solid #bde5ce;
+  color:#126d3d;
+  padding:12px;
+  border-radius:10px;
+  margin:18px 0;
+  font-size:13px;
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+.field label{
+  display:block;
+  font-weight:bold;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccd4dd;
+  border-radius:9px;
+  outline:none;
+  background:white;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:#164a8a;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.btn{
+  padding:11px 15px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.primary{
+  background:#164a8a;
+  color:white;
+}
+
+.red{
+  background:#c62828;
+  color:white;
+}
+
+.secondary{
+  background:#eef2f6;
+  color:#344150;
+}
+
+.full-btn{
+  width:100%;
+}
+
+#loginMessage{
+  margin-top:12px;
+  font-size:13px;
+  min-height:18px;
+}
+
+/* APP */
+
+#application{
+  display:none;
+}
+
+.topbar{
+  background:linear-gradient(
+    135deg,
+    #164a8a,
+    #0d315d
+  );
+  color:white;
+  padding:14px 22px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-logo{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:white;
+  color:#c62828;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:bold;
+  font-size:22px;
+}
+
+.brand h1{
+  margin:0;
+  font-size:18px;
+}
+
+.brand small{
+  opacity:.8;
+}
+
+.user-area{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.role{
+  background:#ffffff22;
+  border:1px solid #ffffff33;
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+.container{
+  max-width:1450px;
+  margin:auto;
+  padding:20px;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:20px;
+}
+
+.sidebar{
+  background:white;
+  border:1px solid #dfe4ea;
+  border-radius:15px;
+  padding:12px;
+  height:max-content;
+  position:sticky;
+  top:85px;
+}
+
+.nav-title{
+  font-size:11px;
+  color:#8993a0;
+  font-weight:bold;
+  text-transform:uppercase;
+  padding:14px 10px 5px;
+}
+
+.nav-btn{
+  width:100%;
+  text-align:left;
+  background:white;
+  padding:11px;
+  border-radius:9px;
+  color:#394554;
+  margin:2px 0;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+  background:#eef4fb;
+  color:#164a8a;
+  font-weight:bold;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* HERO */
+
+.hero{
+  min-height:220px;
+  padding:30px;
+  border-radius:18px;
+  color:white;
+  margin-bottom:18px;
+
+  background:
+  linear-gradient(
+    rgba(13,49,93,.86),
+    rgba(22,74,138,.72)
+  ),
+  url("https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1800&q=80");
+
+  background-size:cover;
+  background-position:center;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hero h2{
+  font-size:30px;
+  margin:0 0 10px;
+}
+
+.hero p{
+  max-width:750px;
+  line-height:1.6;
+}
+
+/* CARDS */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.card{
+  background:white;
+  border:1px solid #dfe4ea;
+  border-radius:15px;
+  padding:18px;
+  box-shadow:0 5px 18px rgba(16,24,40,.06);
+}
+
+.label{
+  color:#687381;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.metric{
+  font-size:26px;
+  font-weight:bold;
+  margin-top:7px;
+}
+
+/* SECTIONS */
+
+.section{
+  background:white;
+  border:1px solid #dfe4ea;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.section h3{
+  margin-top:0;
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  min-width:700px;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  text-align:left;
+  padding:11px;
+  border-bottom:1px solid #dfe4ea;
+  font-size:13px;
+}
+
+th{
+  background:#f7f9fb;
+  color:#687381;
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+/* IMAGES */
+
+.images{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.image-card{
+  height:200px;
+  border-radius:14px;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  position:relative;
+}
+
+.image-card span{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:30px 15px 15px;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.8)
+  );
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:static;
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .topbar{
+    padding:12px;
+  }
+
+  .user-area{
+    display:none;
+  }
+
+  .container{
+    padding:12px;
+  }
+
+  .two,
+  .form-grid,
+  .images{
+    grid-template-columns:1fr;
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero h2{
+    font-size:23px;
+  }
+
+}
+
+@media(max-width:450px){
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .login-card{
+    padding:23px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginScreen">
+
+  <div class="login-card">
+
+    <div class="logo">
+      O
+    </div>
+
+    <h1>
+      Ouchaks OCSDN
+    </h1>
+
+    <p>
+      Customer & Supplier Distribution Network
+    </p>
+
+    <div class="notice">
+
+      <strong>Secure Login</strong><br>
+
+      Sign in using your Firebase Authentication
+      account to access OCSDN.
+
+    </div>
+
+
+    <form id="loginForm">
+
+      <div class="field">
+
+        <label>
+          Email Address
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          placeholder="admin@example.com"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Your password"
+          required>
+
+      </div>
+
+
+      <button
+        class="btn primary full-btn"
+        type="submit">
+
+        Sign In
+
+      </button>
+
+    </form>
+
+
+    <div id="loginMessage"></div>
+
+    <p style="font-size:11px;margin-top:20px">
+
+      Ouchaks OCSDN is powered by Firebase
+      Authentication and Firestore.
+
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= APPLICATION ================= -->
+
+<div id="application">
+
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="brand-logo">
+      O
+    </div>
+
+    <div>
+
+      <h1>
+        Ouchaks OCSDN
+      </h1>
+
+      <small>
+        Customer & Supplier Distribution Network
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <div class="user-area">
+
+    <span id="userEmail">
+    </span>
+
+    <span
+      id="userRole"
+      class="role">
+
+      User
+
+    </span>
+
+    <button
+      class="btn secondary"
+      onclick="signOutUser()">
+
+      Sign Out
+
+    </button>
+
+  </div>
+
+</header>
+
+
+
+<div class="container">
+
+<div class="layout">
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+  <div class="nav-title">
+    Overview
+  </div>
+
+  <button
+    class="nav-btn active"
+    onclick="showPage('dashboard',this)">
+
+    Dashboard
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('customers',this)">
+
+    Customers
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('suppliers',this)">
+
+    Suppliers
+
+  </button>
+
+
+  <div class="nav-title">
+    Transactions
+  </div>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('requests',this)">
+
+    Procurement Requests
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('orders',this)">
+
+    Orders
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('reconciliation',this)">
+
+    Reconciliation
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('commissions',this)">
+
+    Fees & Commissions
+
+  </button>
+
+
+  <div class="nav-title">
+    Governance
+  </div>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('compliance',this)">
+
+    Compliance
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('audit',this)">
+
+    Audit Log
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('privacy',this)">
+
+    Privacy & Data
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('users',this)">
+
+    User Management
+
+  </button>
+
+</aside>
+
+
+
+<main>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section
+id="dashboard"
+class="page active">
+
+  <div class="hero">
+
+    <h2>
+      Ouchaks OCSDN Dashboard
+    </h2>
+
+    <p>
+      A digital distribution network connecting
+      customers, Kota and fast-food businesses,
+      suppliers and procurement services.
+    </p>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+
+      <div class="label">
+        Customers
+      </div>
+
+      <div
+        id="customerCount"
+        class="metric">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="label">
+        Suppliers
+      </div>
+
+      <div
+        id="supplierCount"
+        class="metric">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="label">
+        Orders
+      </div>
+
+      <div
+        id="orderCount"
+        class="metric">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="label">
+        Ouchaks Revenue
+      </div>
+
+      <div
+        id="revenueCount"
+        class="metric">
+
+        R0.00
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="two">
+
+    <div class="section">
+
+      <h3>
+        Quick Actions
+      </h3>
+
+      <div class="actions">
+
+        <button
+          class="btn primary"
+          onclick="showPageByName('customers')">
+
+          Register Customer
+
+        </button>
+
+
+        <button
+          class="btn primary"
+          onclick="showPageByName('suppliers')">
+
+          Register Supplier
+
+        </button>
+
+
+        <button
+          class="btn red"
+          onclick="showPageByName('orders')">
+
+          Create Order
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>
+        OCSDN Services
+      </h3>
+
+      <p>
+        Customer registration
+      </p>
+
+      <p>
+        Supplier onboarding
+      </p>
+
+      <p>
+        Procurement coordination
+      </p>
+
+      <p>
+        Distribution and order management
+      </p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="section">
+
+    <h3>
+      What OCSDN Is About
+    </h3>
+
+    <div class="images">
+
+      <div
+        class="image-card"
+        style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80')">
+
+        <span>
+          Kota & Fast-Food Businesses
+        </span>
+
+      </div>
+
+
+      <div
+        class="image-card"
+        style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80')">
+
+        <span>
+          Customer Business Network
+        </span>
+
+      </div>
+
+
+      <div
+        class="image-card"
+        style="background-image:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80')">
+
+        <span>
+          Suppliers & Distribution
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="section">
+
+    <h3>
+      Recent Activity
+    </h3>
+
+    <div id="activity">
+      No activity yet.
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= CUSTOMERS ================= -->
+
+<section
+id="customers"
+class="page">
+
+  <div class="hero">
+
+    <h2>
+      Customer Management
+    </h2>
+
+    <p>
+      Register and manage businesses participating
+      in the OCSDN distribution network.
+    </p>
+
+  </div>
+
+
+  <div class="section">
+
+    <form id="customerForm">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>
+            Business Name *
+          </label>
+
+          <input
+            id="customerBusiness"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Owner / Representative *
+          </label>
+
+          <input
+            id="customerOwner"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Mobile *
+          </label>
+
+          <input
+            id="customerMobile"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Email
+          </label>
+
+          <input
+            id="customerEmail"
+            type="email">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Trading Area *
+          </label>
+
+          <input
+            id="customerArea"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Business Type
+          </label>
+
+          <select id="customerType">
+
+            <option>Kota Business</option>
+            <option>Fast-Food Business</option>
+            <option>Takeaway</option>
+            <option>Restaurant</option>
+            <option>Caterer</option>
+            <option>Other</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn primary"
+          type="submit">
+
+          Register Customer
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <div class="section">
+
+    <h3>
+      Customers
+    </h3>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Business</th>
+            <th>Owner</th>
+            <th>Mobile</th>
+            <th>Area</th>
+            <th>Type</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="customerTable">
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= SUPPLIERS ================= -->
+
+<section
+id="suppliers"
+class="page">
+
+  <div class="hero">
+
+    <h2>
+      Supplier Management
+    </h2>
+
+    <p>
+      Register suppliers and manage the
+      OCSDN supply network.
+    </p>
+
+  </div>
+
+
+  <div class="section">
+
+    <form id="supplierForm">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>
+            Supplier Business Name *
+          </label>
+
+          <input
+            id="supplierBusiness"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Contact Person *
+          </label>
+
+          <input
+            id="supplierContact"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Mobile *
+          </label>
+
+          <input
+            id="supplierMobile"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Email
+          </label>
+
+          <input
+            id="supplierEmail"
+            type="email">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Service Area
+          </label>
+
+          <input
+            id="supplierArea">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Category
+          </label>
+
+          <select id="supplierCategory">
+
+            <option>Meat & Protein</option>
+            <option>Bakery</option>
+            <option>Vegetables</option>
+            <option>Dairy</option>
+            <option>Cooking Oil</option>
+            <option>Packaging</option>
+            <option>Equipment</option>
+            <option>Other</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn primary"
+          type="submit">
+
+          Register Supplier
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <div class="section">
+
+    <h3>
+      Suppliers
+    </h3>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Business</th>
+            <th>Contact</th>
+            <th>Mobile</th>
+            <th>Area</th>
+            <th>Category</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="supplierTable">
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= REQUESTS ================= -->
+
+<section
+id="requests"
+class="page">
+
+  <div class="hero">
+
+    <h2>
+      Procurement Requests
+    </h2>
+
+    <p>
+      Record customer requirements for
+      supplier sourcing.
+    </p>
+
+  </div>
+
+
+  <div class="section">
+
+    <form id="requestForm">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>
+            Product / Ingredient *
+          </label>
+
+          <input
+            id="requestProduct"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Quantity
+          </label>
+
+          <input
+            id="requestQuantity">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Required Date
+          </label>
+
+          <input
+            id="requestDate"
+            type="date">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Budget
+          </label>
+
+          <input
+            id="requestBudget"
+            type="number"
+            min="0">
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>
+            Notes
+          </label>
+
+          <textarea
+            id="requestNotes"
+            rows="4"></textarea>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="btn primary"
+        type="submit">
+
+        Submit Request
+
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="requestTable">
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= ORDERS ================= -->
+
+<section
+id="orders"
+class="page">
+
+  <div class="hero">
+
+    <h2>
+      Orders & Fulfilment
+    </h2>
+
+    <p>
+      Track OCSDN customer and supplier orders.
+    </p>
+
+  </div>
+
+
+  <div class="section">
+
+    <form id="orderForm">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>
+            Product / Order
+          </label>
+
+          <input
+            id="orderProduct"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Order Value
+          </label>
+
+          <input
+            id="orderValue"
+            type="number"
+            min="0">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Ouchaks Service Fee
+          </label>
+
+          <input
+            id="orderFee"
+            ty
